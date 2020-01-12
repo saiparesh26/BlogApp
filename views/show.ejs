@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Show Blogs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css">
+    <link rel="stylesheet" href="\stylesheets\styles.css">
+</head>
+<body>
+    <div class="ui main text container segment">
+        <div class="ui huge header"><%= blog.title %></div>
+        <div class="ui attached">
+            <div class="item">
+                <img src="<%= blog.image %>" alt="" class="ui centered rounded image">
+                <div class="content">
+                    <span><%= blog.created.toDateString() %></span>
+                </div>
+                <div class="description">
+                    <p><%= blog.body %></p>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>
+

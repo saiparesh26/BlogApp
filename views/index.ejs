@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blogs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css">
+    <link rel="stylesheet" href="\stylesheets\styles.css">
+</head>
+<body>
+    <div class="ui fixed inverted menu">
+        <div class="ui container">
+            <div class="header item"><i class="code icon"></i>Blog Site</div>
+            <a href="/" class="item">Home</a>
+            <a href="/blogs/new" class="item">New Post</a>
+        </div>
+        
+    </div>
+</body>
+</html>
+
+<h1>Index Page</h1>
+
+<% blogs.forEach(function(blog){ %>
+    <div>
+        <h2><%= blog.title%></h2>
+        <img src="<%= blog.image %>" alt="">
+        <span><%= blog.created %></span>
+        <p><%= blog.body %></p>
+        <a href="/blogs/<%= blog._id %>">Read more</a>
+    </div>
+<% }) %>
+ 

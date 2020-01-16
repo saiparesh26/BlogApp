@@ -1,4 +1,6 @@
 var express    = require("express"),
+    methodOverride = require("method-override"),
+    expressSanitizer = require("express-sanitizer");
     app        = express(),
     bodyParser = require("body-parser"),
     mongoose   = require("mongoose");
@@ -8,6 +10,8 @@ mongoose.connect("mongodb://localhost:27017/restful_blog_app" , {useNewUrlParser
 app.set("view engine" , "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended  :true}));
+app.use(expressSanitizer());
+app.use(methodOverride("_method"));
 
 var blogSchema = new mongoose.Schema({
     title : String,
@@ -45,6 +49,7 @@ app.get("/blogs/new",function(req,res){
 //CREATE Route
 app.post("/blogs",function(req,res){
     //create blog
+    req.body.blog.body = req.sanitize(req.body.blog.body);
     Blog.create(req.body.blog , function(err,newBlog){
         if(err){
             res.render("new");
@@ -64,6 +69,50 @@ app.get("/blogs/:id",function(req,res){
             res.render("show", {blog : foundBlog});
         }
     })
+});
+
+//EDIT Ruute
+
+app.get("/blogs/:id/edit",function(req,res){
+    Blog.findById(req.params.id , function(err,foundBlog){
+        if(err){
+            res.redirect("/blogs");
+        }
+        else{
+            res.render("edit" , {blog : foundBlog});
+        }
+    });
+    
+});
+
+//UPDATE Route
+app.put("/blogs/:id",function(req,res){
+    req.body.blog.body = req.sanitize(req.body.blog.body);
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog , function(err,updatedBlog){
+        if(err){
+            res.redirect("/blogs");
+        }
+        else{
+            res.redirect("/blogs/" + req.params.id);
+        }
+    });
+});
+
+//DELETE Route
+
+app.delete("/blogs/:id",function(req,res){
+    //Destroy blog
+    Blog.findByIdAndRemove(req.params.id,function(err){
+        if(err){
+            res.redirect("/blogs");
+        }
+        else{
+            //Redirect Somewhere
+            res.redirect("/blogs");
+        }
+    })
+    
+    
 });
 // Title
 // image
